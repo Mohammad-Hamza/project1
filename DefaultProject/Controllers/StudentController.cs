@@ -14,8 +14,28 @@ namespace DefaultProject.Controllers
         {
             _ORM = ORM;
         }
+
+
+        [HttpGet]
+        public IActionResult CreateStudent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateStudent(Students S)
+        {
+            _ORM.Students.Add(S);
+                _ORM.SaveChanges();
+            ViewBag.Message = "Done Successfully";
+                return View();
+        }
+
+
+        [HttpPost]
         public IActionResult Index()
         {
+
             return View();
         }
     }
