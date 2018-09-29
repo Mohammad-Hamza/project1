@@ -9,10 +9,10 @@ namespace DefaultProject.Controllers
 {
     public class StudentController : Controller
     {
-        public StudentContext ORM = null;
+         StudentContext _ORM = null;
         public StudentController(StudentContext ORM)
         {
-            this.ORM = ORM;
+            _ORM = ORM;
         }
 
 
@@ -25,8 +25,8 @@ namespace DefaultProject.Controllers
         [HttpPost]
         public IActionResult CreateStudent(Students S)
         {
-            ORM.Students.Add(S);
-                ORM.SaveChanges();
+            _ORM.Students.Add(S);
+                _ORM.SaveChanges();
             ViewBag.Message = "Done Successfully";
                 return View();
         }
@@ -39,14 +39,20 @@ namespace DefaultProject.Controllers
             return View();
         }
 
-       
+       [HttpGet]
         public IActionResult AllStudent()
         {
-            IList<Students> AllStudents = ORM.Students.ToList<Students>();
+            IList<Students> AllStudents = _ORM.Students.ToList<Students>();
             return View(AllStudents);
         }
+        [HttpPost]
+        public IActionResult AllStudent(string SearchByName, string SearchByDepartment, string SearchByRollNo)
+        {
 
-       
+            IList<Students> AllStudent = _ORM.Students.Where(m => m.Name.Contains(SearchByName) || m.Department.Contains(SearchByName) || m.RollNo.Contains(SearchByName)).ToList<Students>();
+            return View(AllStudent);
+        }
+
 
 
     }

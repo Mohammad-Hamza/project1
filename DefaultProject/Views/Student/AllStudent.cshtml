@@ -6,6 +6,12 @@
 <a href="/Student/CreateStudent" class="btn btn-warning">Add New Students</a>
 <br />
 
+<form method="post" action="/student/allstudent">
+    <input type="text" id="SearchByName" name="SearchByName" />
+    <input type="text" id="SearchByDepartment" name="SearchByDepartment" />
+    <input type="text" id="SearchByRollNo" name="SearchByRollNo" />
+    <input type="submit" value="Search" />
+</form>
 
 
 <h1>Total Students: @Model.Count()</h1>
