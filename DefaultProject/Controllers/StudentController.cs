@@ -32,14 +32,13 @@ namespace DefaultProject.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult Index()
+        public IActionResult StudentDetail(int Id)
         {
-
-            return View();
+            Students S = _ORM.Students.Where(m => m.Id == Id).FirstOrDefault<Students>();
+            return View(S);
         }
 
-       [HttpGet]
+        [HttpGet]
         public IActionResult AllStudent()
         {
             IList<Students> AllStudents = _ORM.Students.ToList<Students>();
