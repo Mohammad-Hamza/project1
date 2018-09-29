@@ -39,6 +39,21 @@ namespace DefaultProject.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditStudent(int Id)
+        {
+
+            Students S = _ORM.Students.Where(m => m.Id == Id).FirstOrDefault<Students>();
+            return View(S);
+        }
+        [HttpPost]
+        public IActionResult EditStudent(Students S)
+        {
+            _ORM.Students.Update(S);
+            _ORM.SaveChanges();
+            
+            return RedirectToAction("AllStudent");
+        }
+        [HttpGet]
         public IActionResult AllStudent()
         {
             IList<Students> AllStudents = _ORM.Students.ToList<Students>();
