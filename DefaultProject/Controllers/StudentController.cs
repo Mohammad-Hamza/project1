@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using DefaultProject.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DefaultProject.Controllers
@@ -10,9 +14,11 @@ namespace DefaultProject.Controllers
     public class StudentController : Controller
     {
          StudentContext _ORM = null;
-        public StudentController(StudentContext ORM)
+         IHostingEnvironment _ENV = null;
+        public StudentController(StudentContext ORM, IHostingEnvironment ENV)
         {
             _ORM = ORM;
+            _ENV=ENV;
         }
 
 
@@ -23,8 +29,62 @@ namespace DefaultProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateStudent(Students S)
+        public IActionResult CreateStudent(Students S, IFormFile Resume)
         {
+            string wwwRootPath = _ENV.WebRootPath;
+           
+          
+
+            string CVPath = "/WebData/CVs/" + Guid.NewGuid().ToString() + Path.GetExtension(Resume.FileName);
+            FileStream CVS = new FileStream(wwwRootPath + CVPath, FileMode.Create);
+            Resume.CopyTo(CVS);
+            CVS.Close();
+            S.CV = CVPath;
+
+
+            _ORM.Students.Add(S);
+            _ORM.SaveChanges();
+
+            //
+            //Email object
+
+            MailMessage oEmail = new MailMessage();
+            oEmail.From = new MailAddress("butthamza189@gmail.com");
+            oEmail.To.Add(new MailAddress(S.Email));
+            oEmail.CC.Add(new MailAddress("XXXX@XXXX.com"));
+            oEmail.Subject = "Welcome to ABC";
+            oEmail.Body = "Dear " + S.Name + ",<br><br>" +
+                "Thanks for registering with ABC, We are glad to have you in our system." +
+                "<br><br>" +
+                "<b>Regards</b>,<br>ABC Team";
+            oEmail.IsBodyHtml = true;
+            if (!string.IsNullOrEmpty(S.CV))
+            {
+                oEmail.Attachments.Add(new Attachment(wwwRootPath + S.CV));
+            }
+
+           
+        
+
+            //smtp object
+            SmtpClient oSMTP = new SmtpClient();
+            oSMTP.Host = "smtp.gmail.com";
+            oSMTP.Port = 587; //465 //25
+            oSMTP.EnableSsl = true;
+            oSMTP.Credentials = new System.Net.NetworkCredential("XXXXX@gmail.com", "XXXXX");
+
+            try
+            {
+                oSMTP.Send(oEmail);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            //
+
             _ORM.Students.Add(S);
                 _ORM.SaveChanges();
             ViewBag.Message = "Done Successfully";
