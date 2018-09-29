@@ -53,6 +53,16 @@ namespace DefaultProject.Controllers
             
             return RedirectToAction("AllStudent");
         }
+
+        public IActionResult DeleteStudent(Students S)
+        {
+            
+            _ORM.Students.Remove(S);
+            _ORM.SaveChanges();
+            
+            return RedirectToAction("AllStudent");
+        }
+
         [HttpGet]
         public IActionResult AllStudent()
         {
