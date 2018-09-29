@@ -9,10 +9,10 @@ namespace DefaultProject.Controllers
 {
     public class StudentController : Controller
     {
-        public StudentContext _ORM = null;
+        public StudentContext ORM = null;
         public StudentController(StudentContext ORM)
         {
-            _ORM = ORM;
+            this.ORM = ORM;
         }
 
 
@@ -25,8 +25,8 @@ namespace DefaultProject.Controllers
         [HttpPost]
         public IActionResult CreateStudent(Students S)
         {
-            _ORM.Students.Add(S);
-                _ORM.SaveChanges();
+            ORM.Students.Add(S);
+                ORM.SaveChanges();
             ViewBag.Message = "Done Successfully";
                 return View();
         }
@@ -38,5 +38,16 @@ namespace DefaultProject.Controllers
 
             return View();
         }
+
+       
+        public IActionResult AllStudent()
+        {
+            IList<Students> AllStudents = ORM.Students.ToList<Students>();
+            return View(AllStudents);
+        }
+
+       
+
+
     }
 }

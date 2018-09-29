@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -16,6 +17,7 @@ namespace DefaultProject.Models
         }
 
         public virtual DbSet<Students> Students { get; set; }
+        public IEnumerable<object> Student { get; internal set; }
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -61,6 +63,10 @@ namespace DefaultProject.Models
                 entity.Property(e => e.Subject)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CV)
+                   .HasMaxLength(250)
+                   .IsUnicode(false);
             });
         }
     }

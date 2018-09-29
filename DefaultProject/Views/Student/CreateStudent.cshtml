@@ -10,6 +10,9 @@
     {
 <h4 class="alert alert-success"><span class="glyphicon glyphicon-success"></span>@ViewBag.message</h4>}
     }
+<hr />
+<a href="/Student/AllStudent" class="btn btn-success">ViewStudent</a>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateStudent">
@@ -50,6 +53,11 @@
                 <span asp-validation-for="ContactNo" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CV" class="control-label"></label>
+                <input asp-for="CV" class="form-control" />
+                <span asp-validation-for="CV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
@@ -60,6 +68,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -13,5 +13,6 @@ namespace DefaultProject.Models
         public string Subject { get; set; }
         public string Department { get; set; }
         public string ContactNo { get; set; }
+        public string CV { get; set; }
     }
 }

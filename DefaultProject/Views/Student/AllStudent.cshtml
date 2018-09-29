@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Students>
+
+
+<br />
+
+<a href="/Student/CreateStudent" class="btn btn-warning">Add New Students</a>
+<br />
+
+
+
+<h1>Total Students: @Model.Count()</h1>
+
+<table id="ourtable" name="ourtable" class="table table-bordered">
+
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>RollNo</td>
+            <td>Subject</td>
+            <td>Department</td>
+            <td>ContactNO</td>
+            <td>CV</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (Students S in Model)
+        {
+        <tr>
+            <td>
+                @S.Id
+            </td>
+            <td>
+                @S.Name
+            </td>
+            <td>
+                @S.Address
+            </td>
+            <td>
+                @S.City
+            </td>
+            <td>
+                @S.RollNo
+            </td>
+            <td>
+                @S.Subject
+            </td>
+            <td>
+                @S.Department
+            </td>
+            <td>
+                @S.ContactNo
+            </td>
+            <td>
+                @S.CV
+            </td>
+            
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+@section abc
+    {
+    <script>
+
+        $(function () {
+
+            $('#ourtable').DataTable();
+          
+            $('#nb').draggable();
+            $('#dob').datepicker();
+        });
+
+    </script>
+
+
+}
+
+
